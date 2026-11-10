@@ -49,8 +49,8 @@ Préparez trois choses :
 1. **DeepSeek Harness installé sur votre poste.** C'est l'application dans laquelle l'agent vit
    (fournie par la DNUM). Si vous ne l'avez pas encore, demandez le guide d'installation
    « Documentation — Installation IA PM ».
-2. **Un compte Atlassian avec accès à votre projet Jira.** Vous devez pouvoir créer des tickets
-   dans ce projet.
+2. **Un compte Atlassian (Jira Cloud) avec accès à votre projet Jira.** Vous devez pouvoir créer
+   des tickets dans ce projet.
 3. **L'accès au dépôt GitHub** `github.com/matleg29/Agent-ticket` (dépôt privé) : demandez l'accès
    au propriétaire du dépôt avec votre compte GitHub. Sans accès, le lien ci-dessous renvoie une
    page 404.
