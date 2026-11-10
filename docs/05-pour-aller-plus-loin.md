@@ -45,7 +45,7 @@ Chaque action porte un nom technique ; le tableau suivant décrit ce qu'elle fai
 | La fiche de rôle | Le dossier de l'agent, sans aucun secret à l'intérieur |
 | Le programme qui parle à Jira | `C:\Users\<votre-nom>\.dsh\pm-tickets\runtime\mcp\jira-mcp.mjs` |
 
-Rien n'est envoyé ailleurs qu'à votre espace Jira et, si vous l'avez configuré, à votre dépôt GitHub.
+Vos identifiants et vos réglages restent dans votre dossier personnel. Les contenus que vous confiez à l'agent sont traités par le modèle de DeepSeek Harness, comme dans toute conversation ; le programme local ne contacte que votre espace Jira et, si vous l'avez configuré, l'API GitHub.
 
 ![Où vivent les choses](images/ou-est-quoi.png)
 

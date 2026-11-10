@@ -45,7 +45,7 @@ L'installation n'a pas abouti, ou l'application n'a pas été redémarrée.
 
 1. Quittez complètement DeepSeek Harness, puis rouvrez-le.
 2. Si l'agent est toujours absent, refaites l'étape 3 de l'installation : dans une conversation
-   **Standard**, demandez « Installe le bundle C:\Users\<votre-nom>\Documents\Agent-ticket ».
+   **Standard**, demandez « Installe le bundle `C:\Users\<votre-nom>\Documents\Agent-ticket` ».
 3. Vérifiez que le dossier contient bien `package.json` et que vous n'avez pas déplacé le dossier
    depuis l'installation.
 

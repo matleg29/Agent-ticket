@@ -98,8 +98,7 @@ Puis, dans le dossier `Agent-ticket` :
    message « Connexion Jira OK » doit s'afficher.
 
 > Le jeton est stocké uniquement sur votre poste, dans
-> `C:\Users\<votre-nom>\.dsh\jira\credentials.env`. Il n'est jamais envoyé à DeepSeek Harness, ni
-> affiché dans la conversation.
+> `C:\Users\<votre-nom>\.dsh\jira\credentials.env`. Il n'est jamais envoyé au modèle, ni affiché dans la conversation.
 
 ### 3. Faire installer l'agent dans DeepSeek Harness
 
@@ -108,7 +107,7 @@ Puis, dans le dossier `Agent-ticket` :
    « Product Manager — Tickets »).
 3. Copiez-collez ce message, en remplaçant `<votre-nom>` par le vôtre :
 
-   > Installe le bundle C:\Users\<votre-nom>\Documents\Agent-ticket
+   > Installe le bundle `C:\Users\<votre-nom>\Documents\Agent-ticket`
 
    Astuce pour obtenir le chemin exact : dans l'Explorateur Windows, maintenez **Maj** enfoncée,
    faites un clic droit sur le dossier `Agent-ticket`, puis choisissez **Copier en tant que chemin
@@ -200,7 +199,7 @@ Le mode d'emploi complet est dans [examples/nomenclature.md](examples/nomenclatu
 
 ---
 
-## Vos données restent chez vous
+## Vos identifiants restent chez vous
 
 | Donnée | Où elle vit |
 |---|---|
@@ -209,9 +208,10 @@ Le mode d'emploi complet est dans [examples/nomenclature.md](examples/nomenclatu
 | Vos tickets d'exemple | `C:\Users\<votre-nom>\.dsh\pm-tickets\examples\` |
 | Le programme qui parle à Jira | `C:\Users\<votre-nom>\.dsh\pm-tickets\runtime\mcp\` |
 
-Rien n'est envoyé ailleurs qu'à votre espace Jira et, si vous l'avez configuré, à votre dépôt
-GitHub. Le jeton n'apparaît jamais dans la conversation. L'agent ne met jamais de secret dans un
-ticket.
+Vos identifiants et vos réglages ne quittent jamais votre poste. Les textes que vous confiez à
+l'agent (votre demande, votre documentation, vos tickets d'exemple) sont traités par le modèle d'IA
+de DeepSeek Harness, comme dans toute conversation ; le jeton Jira, lui, n'est jamais transmis au
+modèle. L'agent ne met jamais de secret dans un ticket.
 
 ---
 
@@ -238,6 +238,7 @@ votre dossier personnel ; supprimez-les à la main si vous le souhaitez.
 | Erreur **403** | Votre compte n'a pas les droits sur le projet | Demandez les droits au propriétaire du projet Jira |
 | Erreur **400** à la création | Type de ticket ou priorité inexistant dans le projet | Demandez à l'agent la liste des types disponibles, puis revalidez |
 | « bundle introuvable » à l'installation | Chemin incomplet, dossier déplacé, ou ZIP non extrait | Vérifiez que le dossier contient `package.json`, puis recopiez son chemin exact |
+| Windows affiche un avertissement à l'ouverture de `Configurer-Jira.cmd` | Fichier téléchargé depuis Internet | Cliquez sur « Informations complémentaires », puis « Exécuter quand même » |
 | Les outils Jira sont indisponibles | Serveur local non préparé, ou redémarrage manquant | Quittez et rouvrez DeepSeek Harness ; vérifiez que le dossier `.dsh\pm-tickets\runtime\mcp` existe |
 | Le ticket part dans le mauvais projet | Projet de mise en route incorrect | Demandez à l'agent : « change le projet Jira pour … » |
 

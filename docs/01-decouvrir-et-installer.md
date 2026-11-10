@@ -66,8 +66,7 @@ Puis, dans le dossier `Agent-ticket` :
   est prêt.
 
 Le jeton est enregistré uniquement sur votre poste, dans
-`C:\Users\<votre-nom>\.dsh\jira\credentials.env`. Il n'est jamais envoyé à DeepSeek Harness ni
-affiché dans la conversation.
+`C:\Users\<votre-nom>\.dsh\jira\credentials.env`. Il n'est jamais envoyé au modèle ni affiché dans la conversation.
 
 ### 3. Faire installer l'agent dans DeepSeek Harness
 
@@ -75,7 +74,7 @@ affiché dans la conversation.
 - Démarrez une conversation avec l'agent **Standard** (celui par défaut).
 - Collez ce message, en remplaçant `<votre-nom>` par le vôtre :
 
-  > Installe le bundle C:\Users\<votre-nom>\Documents\Agent-ticket
+  > Installe le bundle `C:\Users\<votre-nom>\Documents\Agent-ticket`
 
   Pour obtenir le chemin exact : maintenez **Maj** enfoncée, faites un clic droit sur le dossier
   `Agent-ticket`, puis choisissez **Copier en tant que chemin d'accès**.
