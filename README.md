@@ -52,8 +52,8 @@ Préparez trois choses :
 2. **Un compte Atlassian (Jira Cloud) avec accès à votre projet Jira.** Vous devez pouvoir créer
    des tickets dans ce projet.
 3. **L'accès au dépôt GitHub** `github.com/matleg29/Agent-ticket` (dépôt privé) : demandez l'accès
-   au propriétaire du dépôt avec votre compte GitHub. Sans accès, le lien ci-dessous renvoie une
-   page 404.
+   au propriétaire du dépôt en lui communiquant votre identifiant GitHub. Sans accès, le lien
+   ci-dessous renvoie une page 404.
 
 Comptez **15 minutes**, dont 5 pour créer le jeton Jira.
 

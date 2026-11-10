@@ -32,7 +32,7 @@ Légende : votre demande traverse six étapes, du cadrage jusqu'à la création 
 
 Préparez trois choses : **DeepSeek Harness** installé sur votre poste, un **compte Atlassian
 (Jira Cloud)** avec accès à votre projet Jira, et l'**accès au dépôt GitHub** `github.com/matleg29/Agent-ticket`
-(dépôt privé — demandez l'accès au propriétaire avec votre compte GitHub).
+(dépôt privé — demandez l'accès au propriétaire en lui communiquant votre identifiant GitHub).
 
 ![Les étapes de l'installation](images/installation.png)
 
