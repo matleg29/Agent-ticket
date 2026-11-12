@@ -36,13 +36,57 @@ L'agent relit vos tickets d'exemple et le contexte produit — votre documentati
 
 Il rédige le ticket complet, avec toutes les sections du gabarit, directement dans la conversation. Vos réponses aux questions de refinement sont intégrées, chacune à sa place.
 
+Il termine par un **logigramme fonctionnel** : le parcours du besoin, étape par étape, avec ses décisions, ses variantes et ses erreurs (voir [Le logigramme fonctionnel](#le-logigramme-fonctionnel)).
+
 ### 5. Faire valider
 
 Rien n'est créé sans votre accord. Vous demandez vos corrections ; l'agent représente alors le ticket complet, corrigé.
 
+La validation porte sur le ticket **et** sur son logigramme : si le parcours ne correspond pas à ce que vous attendez, c'est le moment de le dire.
+
 ### 6. Créer
 
-Après votre accord, il crée le ticket dans le projet Jira configuré. Vous recevez la clé et le lien, et l'agent vous propose des suites : un commentaire, des sous-tâches, un rangement dans le backlog.
+Après votre accord, il crée le ticket dans le projet Jira configuré. Il dépose aussitôt le logigramme en commentaire du ticket, puis vous rend la clé, le lien du ticket et celui du commentaire. Il vous propose enfin les suites utiles : sous-tâches, ticket lié, rangement dans le backlog.
+
+## Le logigramme fonctionnel
+
+Un logigramme fonctionnel, c'est le parcours du besoin dessiné du point de vue de l'utilisateur : une case de départ, les étapes, les décisions, les variantes et les cas d'erreur. Il complète les critères d'acceptation : ceux-ci disent quoi vérifier, le logigramme montre dans quel ordre et dans quels cas.
+
+Il est présenté en deux versions, dans le même commentaire :
+
+1. **une version texte**, en caractères monospace, qui s'affiche dans tous les Jira sans rien installer ;
+2. **un source Mermaid**, pour les équipes qui utilisent une application de diagrammes. Jira Cloud ne dessine pas Mermaid de lui-même : sans application, le source reste affiché en clair, tandis que la version texte ci-dessus reste lisible partout.
+
+Exemple, pour un ticket « suivre sa commande » :
+
+```text
+[Début : client connecté]
+│
+▼
+[Ouvrir le détail de la commande]
+│
+▼
+{La commande est-elle payée ?}
+├─oui─▶ [Afficher le statut courant] ──▶ [Fin]
+└─non─▶ [Afficher « en attente de paiement »] ──▶ [Fin]
+```
+
+```mermaid
+flowchart TD
+  A["Début : client connecté"] --> B["Ouvrir le détail de la commande"]
+  B --> C{"La commande est-elle payée ?"}
+  C -->|oui| D["Afficher le statut courant"]
+  C -->|non| E["Afficher « en attente de paiement »"]
+  D --> F(["Fin"])
+  E --> F
+```
+
+Quelques règles :
+
+- il ne va jamais dans la description du ticket : il reste en commentaire, pour ne pas alourdir le ticket ;
+- il ne décrit que ce que le ticket couvre, jamais le hors-périmètre ;
+- il nomme les écrans et les statuts comme votre produit, pas comme le code ;
+- pour un ticket sans parcours utilisateur (refactoring, tâche d'infrastructure, correction de libellé), il n'y a pas de logigramme : l'agent l'écrit en une phrase.
 
 ## Trois conseils pour bien demander
 
@@ -55,3 +99,4 @@ Après votre accord, il crée le ticket dans le projet Jira configuré. Vous rec
 - Avant de rédiger, l'agent vous pose les questions qu'un développeur poserait au refinement.
 - Chaque réponse, même « je ne sais pas », se retrouve dans le ticket : périmètre, critères, risques.
 - Vous validez le ticket complet avant toute création dans Jira.
+- Chaque ticket se termine par un logigramme fonctionnel, déposé en commentaire dans Jira : en texte lisible partout, et en source Mermaid pour les équipes équipées d'une application de diagrammes.

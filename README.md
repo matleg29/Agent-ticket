@@ -19,6 +19,7 @@ validation, jamais avant.
 | Les questions arrivent au refinement, le ticket est rouvert | L'agent pose les questions **avant** de rédiger : cas limites, erreurs, droits, impact |
 | Le développeur doit deviner le contexte | Le contexte, le problème et le bénéfice attendu sont écrits noir sur blanc |
 | Risque de doublon | L'agent cherche les tickets proches avant de créer |
+| Le parcours du besoin reste dans la tête du PM | L'agent joint un logigramme fonctionnel en commentaire du ticket |
 | Le ticket atterrit dans le mauvais projet | L'agent crée uniquement dans le projet Jira que vous avez configuré |
 
 Concrètement, l'agent :
@@ -32,7 +33,10 @@ Concrètement, l'agent :
 - **rédige** un ticket complet en français : résumé, contexte et problème, user story, périmètre,
   critères d'acceptation au format Gherkin, hors-périmètre, dépendances et risques, Definition of
   Done, notes ;
-- **fait valider** : il affiche le ticket dans la conversation et attend votre « oui » ;
+- **accompagne le ticket d'un logigramme fonctionnel** : le parcours du besoin en cases et en
+  décisions, présenté en deux formats (texte lisible partout, source Mermaid) et déposé en
+  commentaire du ticket après sa création ;
+- **fait valider** : il affiche le ticket et son logigramme dans la conversation et attend votre « oui » ;
 - **crée** le ticket dans Jira et vous rend sa clé et son lien ;
 - peut aussi **commenter** un ticket existant.
 
@@ -241,6 +245,7 @@ votre dossier personnel ; supprimez-les à la main si vous le souhaitez.
 | Windows affiche un avertissement à l'ouverture de `Configurer-Jira.cmd` | Fichier téléchargé depuis Internet | Cliquez sur « Informations complémentaires », puis « Exécuter quand même » |
 | Les outils Jira sont indisponibles | Serveur local non préparé, ou redémarrage manquant | Quittez et rouvrez DeepSeek Harness ; vérifiez que le dossier `.dsh\pm-tickets\runtime\mcp` existe |
 | Le ticket part dans le mauvais projet | Projet de mise en route incorrect | Demandez à l'agent : « change le projet Jira pour … » |
+| Le logigramme du ticket apparaît en code brut | Jira Cloud ne dessine pas Mermaid nativement | Lisez la version texte du commentaire : elle décrit le même parcours ; pour l'image, installez une application Mermaid depuis le Marketplace Atlassian |
 
 Le guide de dépannage détaillé est dans [docs/04-depannage.md](docs/04-depannage.md).
 

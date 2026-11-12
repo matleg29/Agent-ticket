@@ -6,7 +6,7 @@
  *   - jira_search        : JQL search
  *   - jira_get_issue     : read one issue
  *   - jira_create_issue  : create an issue from Markdown (converted to ADF)
- *   - jira_add_comment   : comment an issue from Markdown
+ *   - jira_add_comment   : comment an issue from Markdown (text / mermaid blocks kept)
  *   - jira_create_meta   : list issue types / required fields of a project
  *   - jira_projects      : list the Jira projects reachable with the credentials
  *   - ticket_examples    : reference tickets the agent must imitate (nomenclature)
@@ -28,7 +28,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { URL, fileURLToPath } from 'node:url';
 
-const SERVER_INFO = { name: 'jira-pm-tickets', version: '1.0.0' };
+const SERVER_INFO = { name: 'jira-pm-tickets', version: '1.1.0' };
 const BUNDLE_DIR = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const CONFIG_DIR = path.join(os.homedir(), '.dsh', 'pm-tickets');
 const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
@@ -726,12 +726,17 @@ const TOOLS = [
   },
   {
     name: 'jira_add_comment',
-    description: "Ajoute un commentaire (Markdown converti en ADF) à un ticket existant.",
+    description:
+      "Ajoute un commentaire (Markdown converti en ADF) à un ticket existant. Les blocs de code ```text et ```mermaid sont conservés : c'est le canal du logigramme fonctionnel.",
     inputSchema: {
       type: 'object',
       properties: {
         key: { type: 'string', description: 'Clé du ticket, par exemple CLÉPROJET-12.' },
-        comment: { type: 'string', description: 'Commentaire en Markdown.' },
+        comment: {
+          type: 'string',
+          description:
+            'Commentaire en Markdown. Un bloc ```text (le logigramme en texte monospace) et un bloc ```mermaid (son source) deviennent des blocs de code Jira.',
+        },
       },
       required: ['key', 'comment'],
       additionalProperties: false,

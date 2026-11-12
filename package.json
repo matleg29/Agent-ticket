@@ -1,9 +1,9 @@
 {
   "name": "pm-ticket-agents",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
-  "description": "Agent DeepSeek Harness pour chefs de projet et PM : transforme une idée ou un besoin en ticket Jira prêt à développer (user story et critères d'acceptation), puis le crée dans le projet Jira configuré.",
+  "description": "Agent DeepSeek Harness pour chefs de projet et PM : transforme une idée ou un besoin en ticket Jira prêt à développer (user story, critères d'acceptation, logigramme fonctionnel en commentaire), puis le crée dans le projet Jira configuré.",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"

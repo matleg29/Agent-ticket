@@ -73,6 +73,14 @@ L'agent s'affiche mais ne peut pas parler à Jira : le programme local n'a pas �
 DeepSeek Harness n'a pas redémarré depuis l'installation. Quittez et rouvrez l'application. Le
 programme doit se trouver dans `C:\Users\<votre-nom>\.dsh\pm-tickets\runtime\mcp\jira-mcp.mjs`.
 
+### Le logigramme du ticket apparaît en code brut
+
+C'est attendu : Jira Cloud ne dessine pas les diagrammes Mermaid de lui-même. Le commentaire contient
+deux versions — la version texte (au-dessus du source) décrit le même parcours et reste lisible dans
+tous les Jira. Pour voir le diagramme en image, installez une application Mermaid depuis le
+Marketplace Atlassian (par exemple « Mermaid Diagrams for Jira »), qui détecte les blocs `mermaid`
+des commentaires.
+
 ### Mes exemples de tickets ne sont pas utilisés
 
 Demandez : « quels exemples de tickets lis-tu ? » pour voir les fichiers réellement pris en compte.

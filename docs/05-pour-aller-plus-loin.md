@@ -15,7 +15,7 @@ Chaque action porte un nom technique ; le tableau suivant décrit ce qu'elle fai
 | `jira_search` | Cherche des tickets par requête JQL, pour repérer un doublon ou une convention |
 | `jira_get_issue` | Lit un ticket existant : résumé, description, statut… |
 | `jira_create_issue` | Crée un ticket ; la description en Markdown est convertie automatiquement |
-| `jira_add_comment` | Ajoute un commentaire à un ticket existant |
+| `jira_add_comment` | Ajoute un commentaire à un ticket existant ; les blocs de code `text` et `mermaid` y sont conservés, c'est le canal du logigramme fonctionnel |
 | `jira_create_meta` | Liste les types de ticket disponibles dans un projet |
 | `jira_projects` | Liste les projets Jira accessibles, pour choisir ou vérifier le projet cible |
 | `ticket_examples` | Renvoie les tickets de référence dont l'agent imite la nomenclature |
