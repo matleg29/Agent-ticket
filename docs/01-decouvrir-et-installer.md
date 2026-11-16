@@ -2,41 +2,59 @@
 
 ## En une minute
 
-- L'agent « Product Manager — Tickets » transforme vos idées en tickets Jira complets, rédigés en français.
+- L'agent « Product Manager — Tickets » transforme vos idées en tickets Jira synthétiques, rédigés en français.
 - Avant de rédiger, il pose les questions qu'un développeur poserait, puis il attend votre accord avant de créer quoi que ce soit.
-- Comptez une quinzaine de minutes pour l'installer et démarrer votre première session.
+- Un prérequis d'abord : le **MCP Jira** doit être installé et authentifié sur votre poste. Ensuite, comptez dix minutes pour installer l'agent.
 
 ## Ce que l'agent fait
 
-- Il rédige un ticket complet à partir d'une idée, d'un besoin métier ou d'un retour utilisateur.
+- Il rédige un ticket à puces à partir d'une idée, d'un besoin métier ou d'un retour utilisateur : gabarit en huit sections, 1 500 caractères au plus.
 - Avant d'écrire, il se met à la place du développeur qui lira le ticket et pose jusqu'à six questions : cas limites et erreurs, données et formats, impact sur l'existant, droits, contraintes non fonctionnelles, testabilité.
 - Un « je ne sais pas » devient une hypothèse ou une question ouverte, écrite dans le ticket.
-- Il cherche les tickets proches pour éviter les doublons et propose de compléter l'existant.
+- Il cherche les tickets proches pour éviter les doublons et vous signale l'existant.
 - Il ne choisit jamais le projet à votre place : il crée uniquement dans le projet que vous avez configuré, après votre confirmation.
-- Il ne gère ni les sous-tâches ni les sprints : il vous propose ces suites, vous les traitez dans Jira.
+- Il ne modifie et ne supprime **jamais** un ticket existant : il vous donne le lien et la modification se fait dans Jira, par vous.
+- Il ne gère ni les sous-tâches ni les sprints.
 
 ## Le déroulé d'une demande
 
 1. **Cadrer** — l'agent reformule votre demande et précise le bénéfice visé.
 2. **Questionner comme un développeur** — jusqu'à six questions ; vos réponses rendent le premier jet pertinent et vous préparent au refinement.
-3. **Vérifier l'existant** — recherche des tickets proches, pour compléter ou éviter un doublon.
-4. **Rédiger** — un ticket complet, avec les hypothèses et les questions ouvertes visibles.
+3. **Vérifier l'existant** — recherche des tickets proches, pour éviter un doublon.
+4. **Rédiger** — un ticket synthétique à puces, avec les hypothèses et les questions ouvertes visibles.
 5. **Faire valider** — vous relisez, vous corrigez, l'agent ajuste.
 6. **Créer** — après votre confirmation, le ticket apparaît dans Jira avec sa clé et son lien.
 
 ![Le parcours d'un ticket](images/flux-ticket.png)
 
-Légende : votre demande traverse six étapes, du cadrage jusqu'à la création ; vous validez avant toute écriture dans Jira.
+Légende : votre demande avance d'étape en étape jusqu'à la création ; vous validez avant toute écriture dans Jira.
+
+## Étape 0 — le prérequis Jira (avant l'agent)
+
+Le MCP Jira est le petit programme qui relie votre poste à Jira. **Il s'installe et s'authentifie
+avant l'agent.** Une fois pour toutes.
+
+![Le prérequis Jira, puis la première session](images/installation.png)
+
+Légende : le prérequis Jira (case 2 : enregistrer le jeton), le dossier à télécharger (case 1),
+l'installation de l'agent (case 3) et la première session (case 4). Le prérequis se fait avant
+l'installation ; l'agent ne configure aucun identifiant.
+
+- Utilisez les scripts du prérequis fournis dans ce dépôt : `Configurer-Jira.cmd` puis
+  `Verifier-Jira.cmd` (macOS : `bash scripts/set-jira-credentials.sh`, puis `bash scripts/check-jira.sh`).
+- Vous y enregistrez votre accès : site Atlassian, e-mail, jeton API. **C'est le prérequis qui le fait, pas l'agent.**
+- Vérifiez à la fin que la connexion est établie : le prérequis affiche un message de confirmation.
+- Prévoyez un **compte Atlassian (Jira Cloud)** avec le droit de créer des tickets dans votre projet.
+
+> Si le prérequis n'est pas fait, l'agent s'affiche mais ne peut pas parler à Jira. Il vous le dit en
+> une phrase et vous renvoie au prérequis : il ne configure aucun identifiant.
 
 ## Installer l'agent
 
-Préparez trois choses : **DeepSeek Harness** installé sur votre poste, un **compte Atlassian
-(Jira Cloud)** avec accès à votre projet Jira, et l'**accès au dépôt GitHub** `github.com/matleg29/Agent-ticket`
-(dépôt privé — demandez l'accès au propriétaire en lui communiquant votre identifiant GitHub).
-
-![Les étapes de l'installation](images/installation.png)
-
-Légende : quatre étapes, du téléchargement du dossier à la première session avec l'agent.
+Préparez deux choses : **DeepSeek Harness** installé sur votre poste, et l'**accès au dépôt GitHub**
+`github.com/matleg29/Agent-ticket` (dépôt privé — demandez l'accès au propriétaire en lui communiquant
+votre identifiant GitHub). Le prérequis Jira (accès enregistré, connexion vérifiée) se fait avant :
+voir la section « Étape 0 — le prérequis Jira » ci-dessus, schéma compris.
 
 ### 1. Télécharger le dossier de l'agent
 
@@ -48,27 +66,7 @@ Légende : quatre étapes, du téléchargement du dossier à la première sessio
 Le chemin obtenu ressemble à `C:\Users\<votre-nom>\Documents\Agent-ticket`. **Ne le déplacez plus
 ensuite** : l'agent s'installe depuis cet emplacement.
 
-### 2. Créer et enregistrer votre jeton Jira
-
-Un **jeton API Atlassian** est une clé personnelle qui permet à l'agent de parler à Jira en votre
-nom. Il se crée une seule fois et se révoque à tout moment.
-
-- Ouvrez <https://id.atlassian.com/manage-profile/security/api-tokens>.
-- Cliquez sur **Create API token**, nommez-le par exemple `Agent PM Tickets`, puis **Create**.
-- **Copiez immédiatement** la valeur affichée : elle ne sera plus jamais visible.
-
-Puis, dans le dossier `Agent-ticket` :
-
-- **Double-cliquez sur `Configurer-Jira.cmd`**.
-- Saisissez votre e-mail Atlassian, le nom de votre site Jira (par exemple `mon-entreprise` pour
-  `mon-entreprise.atlassian.net`), puis collez le jeton — il reste masqué à la saisie.
-- **Double-cliquez sur `Verifier-Jira.cmd`** : le message « Connexion Jira OK » confirme que tout
-  est prêt.
-
-Le jeton est enregistré uniquement sur votre poste, dans
-`C:\Users\<votre-nom>\.dsh\jira\credentials.env`. Il n'est jamais envoyé au modèle ni affiché dans la conversation.
-
-### 3. Faire installer l'agent dans DeepSeek Harness
+### 2. Faire installer l'agent dans DeepSeek Harness
 
 - Ouvrez **DeepSeek Harness**.
 - Démarrez une conversation avec l'agent **Standard** (celui par défaut).
@@ -84,7 +82,7 @@ Le jeton est enregistré uniquement sur votre poste, dans
 - Si DeepSeek Harness indique qu'un redémarrage est nécessaire, **quittez puis rouvrez
   l'application**.
 
-### 4. Démarrer votre première session
+### 3. Démarrer votre première session
 
 - Créez une **nouvelle conversation**.
 - Dans le sélecteur d'agent, choisissez **Product Manager — Tickets**.
@@ -92,21 +90,21 @@ Le jeton est enregistré uniquement sur votre poste, dans
   leur commande ; je voudrais qu'ils voient le statut depuis leur compte. »
 
 À la première conversation, l'agent pose quatre questions, dans cet ordre : votre projet Jira, vos
-tickets types, votre documentation produit, votre dépôt GitHub. Pour le projet, la clé (par exemple
-`BOUTIQUE`), le nom ou l'adresse suffit ; l'agent peut lister vos projets accessibles, et « je ne
-sais pas encore » est une réponse valide : il vous demandera le projet au moment de la création.
+tickets types, votre documentation produit, votre dépôt GitHub. Aucune ne porte sur vos identifiants :
+le prérequis Jira les a déjà enregistrés. Pour le projet, la clé (par exemple `BOUTIQUE`), le nom ou
+l'adresse suffit ; l'agent peut lister vos projets accessibles, et « je ne sais pas encore » est une
+réponse valide : il vous demandera le projet au moment de la création.
 
 ## Avec macOS
 
 Le parcours est le même, avec deux différences :
 
-- enregistrez le jeton dans le Terminal, depuis le dossier de l'agent :
-  `bash scripts/set-jira-credentials.sh`, puis vérifiez avec `bash scripts/check-jira.sh` ;
-- à l'étape 3, donnez le chemin du dossier téléchargé (par exemple
-  `/Users/<votre-nom>/Documents/Agent-ticket`).
+- le prérequis Jira s'installe depuis le Terminal, avec les scripts fournis pour macOS ;
+- à l'étape 2, donnez le chemin du dossier téléchargé (par exemple
+  `~/Documents/Agent-ticket`).
 
 ## À retenir
 
-- L'agent transforme un besoin en ticket complet ; rien n'est créé sans votre confirmation, dans le projet que vous avez configuré.
-- Ses questions de refinement rendent le premier jet pertinent et préparent la discussion avec l'équipe.
-- Le message « Connexion Jira OK » est le meilleur signe que l'installation a réussi.
+- Le prérequis Jira (MCP installé et authentifié) se fait **avant** l'agent, une seule fois.
+- L'agent transforme un besoin en ticket synthétique ; rien n'est créé sans votre confirmation, dans le projet que vous avez configuré.
+- Il ne modifie et ne supprime jamais un ticket existant : il fournit le lien, vous faites dans Jira.

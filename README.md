@@ -1,13 +1,10 @@
 # PM Tickets — l'agent qui transforme vos idées en tickets Jira
 
 **Pour les chefs de projet et les product managers.** Décrivez un besoin avec vos mots : l'agent le
-cadre, vous pose les questions qu'un développeur poserait, rédige un ticket complet (user story,
-critères d'acceptation, hors-périmètre, risques) et le crée dans **votre** projet Jira — après votre
-validation, jamais avant.
+cadre, vous pose les questions qu'un développeur poserait, rédige un ticket synthétique et le crée
+dans **votre** projet Jira — après votre validation, jamais avant.
 
 > Un ticket que l'équipe comprend sans vous rappeler. Une conversation au lieu d'une page blanche.
-
-![Les étapes de l'installation](docs/images/installation.png)
 
 ---
 
@@ -17,9 +14,9 @@ validation, jamais avant.
 |---|---|
 | Vous partez d'une page blanche ou d'un vieux modèle | L'agent applique le gabarit de ticket de votre équipe, section par section |
 | Les questions arrivent au refinement, le ticket est rouvert | L'agent pose les questions **avant** de rédiger : cas limites, erreurs, droits, impact |
-| Le développeur doit deviner le contexte | Le contexte, le problème et le bénéfice attendu sont écrits noir sur blanc |
+| Un ticket de trois pages que personne ne lit | Un ticket à puces, lisible en 30 secondes |
 | Risque de doublon | L'agent cherche les tickets proches avant de créer |
-| Le parcours du besoin reste dans la tête du PM | L'agent joint un logigramme fonctionnel en commentaire du ticket |
+| Le parcours du besoin reste dans la tête du PM | L'agent joint un logigramme fonctionnel en commentaire du ticket créé |
 | Le ticket atterrit dans le mauvais projet | L'agent crée uniquement dans le projet Jira que vous avez configuré |
 
 Concrètement, l'agent :
@@ -30,43 +27,102 @@ Concrètement, l'agent :
   impact sur l'existant, droits, contraintes non fonctionnelles, testabilité) ;
 - **s'appuie sur votre produit** : vos tickets types, votre documentation et votre dépôt de code,
   quand vous les avez fournis ;
-- **rédige** un ticket complet en français : résumé, contexte et problème, user story, périmètre,
-  critères d'acceptation au format Gherkin, hors-périmètre, dépendances et risques, Definition of
-  Done, notes ;
+- **rédige** un ticket synthétique en français, à puces : résumé, contexte, user story, périmètre,
+  critères d'acceptation au format Gherkin, puis les sections utiles seulement (hors-périmètre,
+  risques et dépendances, notes). Budget indicatif : 1 500 caractères ;
 - **accompagne le ticket d'un logigramme fonctionnel** : le parcours du besoin en cases et en
   décisions, présenté en deux formats (texte lisible partout, source Mermaid) et déposé en
   commentaire du ticket après sa création ;
 - **fait valider** : il affiche le ticket et son logigramme dans la conversation et attend votre « oui » ;
-- **crée** le ticket dans Jira et vous rend sa clé et son lien ;
-- peut aussi **commenter** un ticket existant.
+- **crée** le ticket dans Jira et vous rend sa clé et son lien.
 
-Ce qu'il ne fait pas : il ne modifie ni ne supprime un ticket existant sans confirmation, ne gère
-pas vos sprints, et n'invente jamais une règle métier, une maquette ou une priorité. Une information
+Ce qu'il ne fait pas : il **ne modifie et ne supprime jamais** un ticket existant, ne gère pas vos
+sprints, et n'invente jamais une règle métier, une maquette ou une priorité. Une information
 manquante devient une question ou une hypothèse nommée dans le ticket.
 
 ---
 
-## Avant de commencer
-
-Préparez trois choses :
+## Avant de commencer : deux prérequis
 
 1. **DeepSeek Harness installé sur votre poste.** C'est l'application dans laquelle l'agent vit
    (fournie par la DNUM). Si vous ne l'avez pas encore, demandez le guide d'installation
    « Documentation — Installation IA PM ».
-2. **Un compte Atlassian (Jira Cloud) avec accès à votre projet Jira.** Vous devez pouvoir créer
-   des tickets dans ce projet.
-3. **L'accès au dépôt GitHub** `github.com/matleg29/Agent-ticket` (dépôt privé) : demandez l'accès
-   au propriétaire du dépôt en lui communiquant votre identifiant GitHub. Sans accès, le lien
-   ci-dessous renvoie une page 404.
+2. **Le MCP Jira installé et authentifié AVANT l'agent.** C'est le petit programme qui relie votre
+   poste à Jira. Une fois pour toutes : la section « Étape 0 — le prérequis Jira » de
+   [docs/01-decouvrir-et-installer.md](docs/01-decouvrir-et-installer.md) vous fait installer ce
+   programme et enregistrer votre accès (raccourcis `Configurer-Jira.cmd` et `Verifier-Jira.cmd`).
+   L'agent, lui, ne configure aucun identifiant et ne demande ni site Atlassian, ni e-mail, ni jeton.
 
-Comptez **15 minutes**, dont 5 pour créer le jeton Jira.
+![Le prérequis Jira, puis l'installation de l'agent](docs/images/installation.png)
+
+Légende : le prérequis Jira (case 2 : enregistrer le jeton), le dossier à télécharger (case 1),
+l'installation de l'agent (case 3) et la première session (case 4). Le prérequis se fait avant
+l'installation ; l'agent ne configure aucun identifiant.
+
+Prévoyez un **compte Atlassian (Jira Cloud)** avec le droit de créer des tickets dans votre projet,
+et l'**accès au dépôt GitHub** `github.com/matleg29/Agent-ticket` (dépôt privé) : demandez l'accès au
+propriétaire du dépôt en lui communiquant votre identifiant GitHub.
+
+Comptez **10 minutes** pour installer l'agent, une fois le prérequis Jira en place.
 
 > L'agent écrit toujours en français. Il conserve les valeurs Jira telles quelles : clé de projet,
 > noms des types de ticket, statuts, libellés.
 
 ---
 
-## Installation en quatre étapes (Windows)
+## Droits sur Jira : création seule
+
+- L'agent **crée** des tickets. C'est tout.
+- Il ne modifie **jamais** un ticket existant : ni résumé, ni description, ni statut, ni priorité, ni
+  libellé, ni assignation, ni pièce jointe.
+- Il ne supprime **jamais** de ticket. Aucune exception, aucun « pour cette fois ».
+- Seule écriture sur un ticket existant : un commentaire sur **le ticket qu'il vient de créer** dans
+  la conversation en cours, pour y déposer le logigramme fonctionnel.
+- Besoin de changer quelque chose ? L'agent décrit en une ou deux phrases ce qu'il faudrait changer,
+  **vous donne le lien** du ticket (`.../browse/CLÉ`) et vous laisse faire dans Jira.
+
+Formulation que vous verrez : « Je ne modifie pas les tickets existants. Voici le lien : <URL>. La
+modification est à faire côté Jira, par vous. »
+
+| Ce que l'agent fait | Ce qu'il ne fait jamais |
+|---|---|
+| Lire les tickets proches pour éviter les doublons | Modifier un ticket existant |
+| Créer un ticket après votre validation | Supprimer un ticket |
+| Commenter le ticket qu'il vient de créer | Commenter un ticket créé par quelqu'un d'autre |
+| Vous fournir la clé et le lien du ticket | Changer un statut, une priorité, un libellé |
+
+---
+
+## Style du ticket : synthétique, à puces
+
+Le ticket est court et dense : ce qu'un développeur lit en 30 secondes.
+
+Gabarit appliqué, dans cet ordre :
+
+1. **Résumé** — une phrase, 100 caractères au plus, sans préfixe de type.
+2. **Contexte** — 2 à 4 puces : qui est concerné, situation actuelle, impact.
+3. **User story** — une phrase : « En tant que…, je veux…, afin de… ».
+4. **Périmètre** — 3 à 6 puces, verbes d'action.
+5. **Critères d'acceptation** — 3 à 6, Gherkin français, une ligne par critère : `Étant donné … / Quand … / Alors …`.
+6. **Hors périmètre** — puces. **Section omise** si elle est vide.
+7. **Risques et dépendances** — puces. **Section omise** si elle est vide.
+8. **Notes** — puces : liens, maquettes, questions ouvertes. **Section omise** si elle est vide.
+
+Règles de concision :
+
+- Une idée = une puce = une ligne.
+- Pas de phrase d'introduction, pas de reformulation de la demande, pas de résumé final.
+- Budget indicatif : **1 500 caractères** hors logigramme. Si ça dépasse, coupez dans le
+  hors-périmètre et les notes, jamais dans les critères.
+- Pas d'adjectif creux, pas de « etc. », pas de section vide.
+- La « Definition of Done » séparée n'existe plus : ce qui reste utile va dans une puce de **Notes**.
+- Le logigramme fonctionnel reste **hors** de la description : il part en commentaire du ticket créé.
+
+---
+
+## Installation en trois étapes (Windows)
+
+> Le prérequis Jira (étape « Avant de commencer ») est fait : le MCP Jira est installé et authentifié.
 
 ### 1. Télécharger le dossier de l'agent
 
@@ -82,29 +138,7 @@ Vous devez obtenir un dossier `C:\Users\<votre-nom>\Documents\Agent-ticket` qui 
 > **Ne déplacez plus ce dossier ensuite.** L'agent s'installe depuis cet emplacement ; si vous le
 > déplacez, il faudra réinstaller l'agent.
 
-### 2. Enregistrer votre jeton Jira
-
-L'agent a besoin d'un **jeton API Atlassian**, une clé personnelle qui lui permet de parler à Jira
-en votre nom. Il se crée une seule fois, et se révoque à tout moment.
-
-1. Ouvrez <https://id.atlassian.com/manage-profile/security/api-tokens>.
-2. Cliquez sur **Create API token**.
-3. Donnez-lui un nom, par exemple `Agent PM Tickets`, puis cliquez sur **Create**.
-4. **Copiez immédiatement** la valeur affichée : elle ne sera plus jamais visible ensuite.
-
-Puis, dans le dossier `Agent-ticket` :
-
-5. **Double-cliquez sur `Configurer-Jira.cmd`**.
-6. Saisissez votre e-mail Atlassian, le nom de votre site Jira (par exemple `mon-entreprise` si
-   votre Jira est sur `mon-entreprise.atlassian.net`) et collez le jeton. Le jeton reste masqué à la
-   saisie.
-7. Un message vert confirme l'enregistrement. **Double-cliquez sur `Verifier-Jira.cmd`** : le
-   message « Connexion Jira OK » doit s'afficher.
-
-> Le jeton est stocké uniquement sur votre poste, dans
-> `C:\Users\<votre-nom>\.dsh\jira\credentials.env`. Il n'est jamais envoyé au modèle, ni affiché dans la conversation.
-
-### 3. Faire installer l'agent dans DeepSeek Harness
+### 2. Faire installer l'agent dans DeepSeek Harness
 
 1. Ouvrez **DeepSeek Harness**.
 2. Démarrez une conversation avec l'agent **Standard** (celui par défaut, pas encore
@@ -125,7 +159,7 @@ Puis, dans le dossier `Agent-ticket` :
 > `Installe le bundle https://github.com/matleg29/Agent-ticket`. La méthode du dossier téléchargé
 > reste la plus simple et la plus fiable.
 
-### 4. Créer votre première session
+### 3. Créer votre première session
 
 1. Dans DeepSeek Harness, créez une **nouvelle conversation**.
 2. Dans le sélecteur d'agent, choisissez **Product Manager — Tickets**.
@@ -137,11 +171,18 @@ Puis, dans le dossier `Agent-ticket` :
 C'est parti. À la première conversation, l'agent vous pose quatre questions de mise en route (voir
 ci-dessous) avant de rédiger.
 
+### Sur macOS
+
+Le parcours est identique : même dossier, même message d'installation, en donnant le chemin du
+dossier téléchargé (par exemple `~/Documents/Agent-ticket`). Le prérequis Jira s'installe de la même
+façon, avec les scripts fournis pour macOS.
+
 ---
 
 ## Le premier lancement : quatre questions
 
-L'agent ne devine rien. Il vous demande, une question à la fois :
+L'agent ne devine rien. Il vous demande, une question à la fois. Aucune de ces questions ne porte sur
+vos identifiants : le prérequis Jira les a déjà enregistrés.
 
 1. **Dans quel projet Jira dois-je créer vos tickets ?** — la clé du projet (par exemple
    `BOUTIQUE`), son nom ou l'adresse du projet. Si vous ne connaissez pas la clé, demandez-lui de
@@ -167,7 +208,7 @@ Décrivez le besoin, pas la solution :
 
 > « Quand un client annule sa commande, il continue de recevoir les e-mails d'expédition. »
 
-L'agent reformule, pose ses questions, rédige le ticket complet, puis demande :
+L'agent reformule, pose ses questions, rédige le ticket, puis demande :
 
 > « Je crée ce ticket dans BOUTIQUE ? »
 
@@ -207,15 +248,15 @@ Le mode d'emploi complet est dans [examples/nomenclature.md](examples/nomenclatu
 
 | Donnée | Où elle vit |
 |---|---|
-| Votre jeton Jira | `C:\Users\<votre-nom>\.dsh\jira\credentials.env` (protégé) |
+| Votre accès Jira (prérequis MCP) | `C:\Users\<votre-nom>\.dsh\jira\credentials.env` (protégé) |
 | Votre configuration (projet, doc, dépôt) | `C:\Users\<votre-nom>\.dsh\pm-tickets\config.json` |
 | Vos tickets d'exemple | `C:\Users\<votre-nom>\.dsh\pm-tickets\examples\` |
 | Le programme qui parle à Jira | `C:\Users\<votre-nom>\.dsh\pm-tickets\runtime\mcp\` |
 
-Vos identifiants et vos réglages ne quittent jamais votre poste. Les textes que vous confiez à
-l'agent (votre demande, votre documentation, vos tickets d'exemple) sont traités par le modèle d'IA
-de DeepSeek Harness, comme dans toute conversation ; le jeton Jira, lui, n'est jamais transmis au
-modèle. L'agent ne met jamais de secret dans un ticket.
+L'accès Jira est enregistré une seule fois, par le prérequis MCP, et n'est jamais transmis au modèle.
+Les textes que vous confiez à l'agent (votre demande, votre documentation, vos tickets d'exemple) sont
+traités par le modèle d'IA de DeepSeek Harness, comme dans toute conversation. L'agent ne met jamais
+de secret dans un ticket et ne vous demande jamais de jeton.
 
 ---
 
@@ -227,8 +268,8 @@ paquet a changé, demandez d'abord à l'assistant : « Retire le bundle pm-ticke
 réinstallez.
 
 **Désinstaller** — dans une conversation avec l'agent **Standard**, demandez : « Retire le bundle
-pm-ticket-agents ». Le preset disparaît du sélecteur. Vos réglages et votre jeton restent dans
-votre dossier personnel ; supprimez-les à la main si vous le souhaitez.
+pm-ticket-agents ». Le preset disparaît du sélecteur. Vos réglages restent dans votre dossier
+personnel ; supprimez-les à la main si vous le souhaitez. Le prérequis Jira n'est pas concerné.
 
 ---
 
@@ -236,15 +277,15 @@ votre dossier personnel ; supprimez-les à la main si vous le souhaitez.
 
 | Symptôme | Cause probable | Action |
 |---|---|---|
-| « Product Manager — Tickets » absent du sélecteur | Installation non terminée, ou application non redémarrée | Rouvrez DeepSeek Harness ; sinon refaites l'étape 3 et vérifiez le message de confirmation |
-| « Identifiants Jira manquants » | Jeton non enregistré ou fichier déplacé | Relancez `Configurer-Jira.cmd` |
-| Erreur **401** | Jeton refusé, révoqué ou copié tronqué | Créez un nouveau jeton et relancez `Configurer-Jira.cmd` |
+| « Product Manager — Tickets » absent du sélecteur | Installation non terminée, ou application non redémarrée | Rouvrez DeepSeek Harness ; sinon refaites l'étape 2 et vérifiez le message de confirmation |
+| « Identifiants Jira manquants » | Le prérequis Jira n'a pas été fait sur ce poste | Refaites le prérequis Jira (voir « Avant de commencer : deux prérequis » ci-dessus), puis rouvrez DeepSeek Harness |
+| Erreur **401** | Accès Jira refusé, révoqué ou copié tronqué | Refaites le prérequis Jira avec un accès valide |
 | Erreur **403** | Votre compte n'a pas les droits sur le projet | Demandez les droits au propriétaire du projet Jira |
 | Erreur **400** à la création | Type de ticket ou priorité inexistant dans le projet | Demandez à l'agent la liste des types disponibles, puis revalidez |
 | « bundle introuvable » à l'installation | Chemin incomplet, dossier déplacé, ou ZIP non extrait | Vérifiez que le dossier contient `package.json`, puis recopiez son chemin exact |
-| Windows affiche un avertissement à l'ouverture de `Configurer-Jira.cmd` | Fichier téléchargé depuis Internet | Cliquez sur « Informations complémentaires », puis « Exécuter quand même » |
-| Les outils Jira sont indisponibles | Serveur local non préparé, ou redémarrage manquant | Quittez et rouvrez DeepSeek Harness ; vérifiez que le dossier `.dsh\pm-tickets\runtime\mcp` existe |
+| Les outils Jira sont indisponibles | MCP Jira non installé, ou redémarrage manquant | Refaites le prérequis Jira, puis quittez et rouvrez DeepSeek Harness |
 | Le ticket part dans le mauvais projet | Projet de mise en route incorrect | Demandez à l'agent : « change le projet Jira pour … » |
+| J'ai besoin de corriger un ticket créé | C'est voulu : l'agent ne modifie rien | Ouvrez le lien fourni et faites la modification vous-même dans Jira |
 | Le logigramme du ticket apparaît en code brut | Jira Cloud ne dessine pas Mermaid nativement | Lisez la version texte du commentaire : elle décrit le même parcours ; pour l'image, installez une application Mermaid depuis le Marketplace Atlassian |
 
 Le guide de dépannage détaillé est dans [docs/04-depannage.md](docs/04-depannage.md).
@@ -255,10 +296,10 @@ Le guide de dépannage détaillé est dans [docs/04-depannage.md](docs/04-depann
 
 | Page | Contenu |
 |---|---|
-| [Découvrir et installer](docs/01-decouvrir-et-installer.md) | Le parcours d'installation pas à pas, avec les schémas |
-| [Configurer l'agent](docs/02-configurer-l-agent.md) | Les quatre questions, vos exemples, la documentation produit |
-| [Demander un ticket](docs/03-demander-un-ticket.md) | Le déroulé d'une demande, du cadrage à la création |
-| [Dépannage](docs/04-depannage.md) | Connexion Jira, messages d'erreur, questions fréquentes |
+| [Découvrir et installer](docs/01-decouvrir-et-installer.md) | Le prérequis Jira, puis l'installation de l'agent, pas à pas |
+| [Configurer l'agent](docs/02-configurer-l-agent.md) | Le projet Jira et les trois sources : exemples, documentation, dépôt |
+| [Demander un ticket](docs/03-demander-un-ticket.md) | Le déroulé d'une demande, le gabarit et les droits |
+| [Dépannage](docs/04-depannage.md) | Prérequis Jira, messages d'erreur, questions fréquentes |
 | [Pour aller plus loin](docs/05-pour-aller-plus-loin.md) | Les dix actions de l'agent et l'architecture |
 
 ---
@@ -268,13 +309,13 @@ Le guide de dépannage détaillé est dans [docs/04-depannage.md](docs/04-depann
 | Élément | Rôle |
 |---|---|
 | `package.json` | Manifeste du bundle installable par DeepSeek Harness |
-| `cordis.patch.yml` | Déclaration du preset « Product Manager — Tickets » : persona, outils, connexion Jira |
-| `index.js` | Prépare le serveur Jira local et le mode d'exécution par défaut de l'agent |
+| `cordis.patch.yml` | Déclaration du preset « Product Manager — Tickets » : persona, outils, accès au MCP Jira |
+| `index.js` | Prépare le mode d'exécution par défaut de l'agent |
 | `mcp/jira-mcp.mjs` | Serveur local (MCP) qui parle à l'API Jira : recherche, création, commentaire, contexte |
 | `examples/` | Tickets de référence livrés par défaut |
-| `scripts/` | Programmes d'enregistrement du jeton, de vérification, d'ajout d'exemples (Windows et macOS) |
+| `scripts/` | Prérequis Jira (identifiants, vérification) et ajout d'exemples, Windows et macOS |
 | `docs/` | Les cinq guides et leurs schémas |
-| `Configurer-Jira.cmd`, `Verifier-Jira.cmd` | Raccourcis Windows à double-cliquer |
+| `Configurer-Jira.cmd`, `Verifier-Jira.cmd` | Raccourcis Windows du prérequis Jira, à double-cliquer |
 
 ---
 
@@ -285,8 +326,11 @@ Le guide de dépannage détaillé est dans [docs/04-depannage.md](docs/04-depann
   Harness.
 - **Aucun chemin personnel dans le dépôt.** Le serveur Jira est copié au chargement dans
   `~/.dsh/pm-tickets/runtime/` avec les exemples livrés ; le patch le lance via `process.execPath`, donc macOS comme Windows.
-- **Authentification** : HTTP Basic `e-mail:jeton` sur l'API REST Jira v3 (Atlassian Cloud). Les
-  identifiants sont lus dans `~/.dsh/jira/credentials.env`, jamais dans la conversation.
+- **Accès Jira** : il relève du prérequis MCP — HTTP Basic `e-mail:jeton` sur l'API REST Jira v3
+  (Atlassian Cloud), identifiants lus dans `~/.dsh/jira/credentials.env` par le serveur MCP, jamais
+  dans la conversation. L'agent ne configure ni ne lit ces identifiants.
+- **Périmètre d'écriture** : le serveur n'expose que la recherche, la lecture, la création et le
+  commentaire. Aucun outil de mise à jour ou de suppression n'est exposé.
 - **Pas de collecte** : le serveur n'écrit que la configuration locale et ne contacte que Jira et,
   si configuré, l'API GitHub.
 - **Compatibilité** : DeepSeek Harness Desktop 0.2.x. Les scripts Windows utilisent PowerShell

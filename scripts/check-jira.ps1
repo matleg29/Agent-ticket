@@ -1,4 +1,4 @@
-﻿# Vérifie la connexion Jira avec les identifiants enregistrés.
+﻿# Verifie la connexion Jira du MCP Jira avec les identifiants du pre-requis.
 #
 # Usage : clic droit > « Exécuter avec PowerShell », ou dans PowerShell :
 #   powershell -ExecutionPolicy Bypass -File scripts\check-jira.ps1

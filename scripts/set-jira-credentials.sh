@@ -1,6 +1,6 @@
 #!/bin/bash
-# Enregistre les identifiants Jira de l'agent, hors conversation.
-# À lancer une fois dans le Terminal : bash scripts/set-jira-credentials.sh
+# Enregistre l'accès Jira du MCP Jira — prérequis, à faire avant l'agent.
+# Hors conversation. À lancer une fois dans le Terminal : bash scripts/set-jira-credentials.sh
 set -euo pipefail
 
 dir="$HOME/.dsh/jira"

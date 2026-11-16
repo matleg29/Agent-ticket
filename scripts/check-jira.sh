@@ -1,5 +1,5 @@
 #!/bin/bash
-# Vérifie la connexion Jira avec les identifiants enregistrés.
+# Vérifie la connexion Jira du MCP Jira avec les identifiants du prérequis.
 # Usage : bash scripts/check-jira.sh
 set -euo pipefail
 

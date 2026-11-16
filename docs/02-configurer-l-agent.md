@@ -3,8 +3,15 @@
 ## En une minute
 
 - Au premier lancement, l'agent pose quatre questions dans l'ordre : votre projet Jira, vos tickets types, votre documentation produit, votre dépôt de code.
+- Aucune question ne porte sur vos identifiants Jira : ils relèvent du prérequis MCP Jira, fait avant l'installation de l'agent.
 - Chaque réponse est enregistrée immédiatement, refus compris : « je n'en ai pas » n'est jamais redemandé.
 - Tout est modifiable ensuite, sans réinstaller l'agent.
+
+## Avant les questions : le prérequis Jira
+
+- L'accès Jira (site Atlassian, e-mail, jeton) est enregistré par le **prérequis MCP Jira**, avant l'installation de l'agent.
+- L'agent ne crée aucun identifiant, ne demande ni site, ni e-mail, ni jeton, et ne dépanne pas cette configuration.
+- Prérequis absent ou accès refusé ? L'agent le signale en une phrase et vous renvoie à la section « Étape 0 — le prérequis Jira » de [Découvrir et installer](01-decouvrir-et-installer.md).
 
 ## Les quatre questions du premier lancement
 
@@ -37,7 +44,8 @@ Une adresse de dépôt ou « pas de dépôt » : l'agent situe le sujet dans le 
 ## Vos réglages et où les trouver
 
 Vos réponses sont conservées dans le fichier de réglages
-`C:\Users\<votre-nom>\.dsh\pm-tickets\config.json`, dans votre dossier personnel.
+`C:\Users\<votre-nom>\.dsh\pm-tickets\config.json`, dans votre dossier personnel. Ce fichier ne
+contient **aucun identifiant Jira** : l'accès est enregistré par le prérequis, ailleurs.
 
 Pour les modifier :
 
@@ -54,9 +62,11 @@ scripts\reset-product-context.ps1` sous Windows, `bash scripts/reset-product-con
   `powershell -ExecutionPolicy Bypass -File scripts\add-example.ps1 -Source C:\chemin\mon-ticket.md`
   sous Windows (`bash scripts/add-example.sh ~/Documents/mon-ticket.md story-mon-sujet.md` sous macOS).
 - Un exemple collé dans la conversation est prioritaire ; vos exemples priment sur ceux livrés avec l'agent ; la prise en compte est immédiate.
+- Le gabarit livré reste le même : ticket à puces, 1 500 caractères au plus, sections facultatives omises quand elles sont vides. Vos exemples en montrent le style, ils ne le remplacent pas.
 
 ## À retenir
 
+- Le prérequis Jira se fait avant : l'agent ne demande aucun identifiant.
 - Quatre questions au premier lancement ; chaque réponse, refus compris, est enregistrée et jamais redemandée.
 - Le projet Jira configuré est la cible de toutes les créations, avec une confirmation avant chaque ticket.
 - Deux ou trois tickets types suffisent pour que l'agent écrive comme vous.

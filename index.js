@@ -15,6 +15,13 @@
  *    Le dossier `runtime/` est distinct de `~/.dsh/pm-tickets/examples/`, qui
  *    reste la bibliothèque personnelle de l'utilisateur.
  *
+ *    Les identifiants Jira (`~/.dsh/jira/credentials.env`), l'installation du
+ *    MCP lui-même et la procédure décrite dans la section « Avant de
+ *    commencer : deux prérequis » du README sont un prérequis, à installer
+ *    AVANT l'agent. Le plugin ne crée aucun identifiant, ne les
+ *    demande pas et ne dépanne pas cette configuration : il se contente de
+ *    rendre le serveur disponible.
+ *
  * 2. Donner au preset un mode d'exécution utilisable. La configuration d'un
  *    preset ne peut déclarer que son identité et sa liste de plugins, pas un
  *    mode d'exécution. Sans ce plugin, une nouvelle session pm-tickets

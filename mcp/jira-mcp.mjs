@@ -8,17 +8,24 @@
  *   - jira_create_issue  : create an issue from Markdown (converted to ADF)
  *   - jira_add_comment   : comment an issue from Markdown (text / mermaid blocks kept)
  *   - jira_create_meta   : list issue types / required fields of a project
- *   - jira_projects      : list the Jira projects reachable with the credentials
+ *   - jira_projects      : list the Jira projects reachable once the prerequisite is installed
  *   - ticket_examples    : reference tickets the agent must imitate (nomenclature)
- *   - setup_read         : current configuration (Jira project, docs, repo, examples)
- *   - setup_save         : persist the guided-setup answers (Jira project included)
+ *   - setup_read         : current setup (Jira project, docs, repo, examples; never credentials)
+ *   - setup_save         : persist one guided-setup answer (project included; never credentials)
  *   - product_context    : documentation + GitHub repository content for context
  *
- * Credentials come from the process environment:
+ * Prerequisite, installed BEFORE this agent and outside it: the Jira MCP
+ * credentials, documented in the prerequisites section of the README
+ * (`~/.dsh/jira/credentials.env`).
+ * This server only reads them from the process environment: it never asks
+ * anyone for them, never creates them and never troubleshoots them.
  *   ATLASSIAN_SITE_NAME, ATLASSIAN_USER_EMAIL, ATLASSIAN_API_TOKEN
  * (optionally ATLASSIAN_BASE_URL to override https://<site>.atlassian.net)
  *
- * The server never writes to disk: logs go to stderr, protocol to stdout.
+ * Disk writes: only the local setup file `~/.dsh/pm-tickets/config.json`
+ * (product context answers; no credential ever). Jira writes: only issue
+ * creation and comments — never an update, never a deletion. Logs go to
+ * stderr, protocol to stdout.
  */
 
 import fs from 'node:fs';
@@ -86,8 +93,9 @@ function requireConfig() {
   if (!c.token) missing.push('ATLASSIAN_API_TOKEN');
   if (missing.length) {
     throw new Error(
-      `Identifiants Jira manquants : ${missing.join(', ')}. ` +
-        'Lancez Configurer-Jira.cmd (Windows) ou scripts/set-jira-credentials.sh (macOS), puis réessayez (aucun redémarrage nécessaire).',
+      `Le MCP Jira n'est pas configuré sur ce poste : identifiants introuvables (${missing.join(', ')}). ` +
+        "C'est un prérequis à installer avant l'agent — voir la section prérequis du README de l'agent ; " +
+        "aucun identifiant n'est saisi ni créé ici.",
     );
   }
   return c;
@@ -162,6 +170,8 @@ const SETUP_QUESTIONS = {
 function setupState() {
   const cfg = readConfig();
   const examples = readExamples();
+  // `jiraCredentialsFound` is informational only: the Jira credentials are a
+  // prerequisite installed before the agent, never one of the setup questions.
   const credsFile = path.join(os.homedir(), '.dsh', 'jira', 'credentials.env');
   const docs = cfg.docs || {};
   const repo = cfg.repo || {};
@@ -698,7 +708,7 @@ const TOOLS = [
   },
   {
     name: 'jira_get_issue',
-    description: "Lit un ticket Jira existant : résumé, description, statut, type, priorité, libellés, assigné et lien.",
+    description: "Lit un ticket Jira existant, en lecture seule : résumé, description, statut, type, priorité, libellés, assigné et lien. Aucune écriture.",
     inputSchema: {
       type: 'object',
       properties: { key: { type: 'string', description: 'Clé du ticket, par exemple CLÉPROJET-12.' } },
@@ -709,11 +719,12 @@ const TOOLS = [
   {
     name: 'jira_create_issue',
     description:
-      'Crée un ticket Jira. La description est écrite en Markdown et convertie automatiquement au format Atlassian (ADF).',
+      'Crée un ticket Jira (création seule) : la description est écrite en Markdown et convertie automatiquement au format Atlassian (ADF). ' +
+        'Aucune modification ni suppression de ticket existant n’est possible par l’agent.',
     inputSchema: {
       type: 'object',
       properties: {
-        summary: { type: 'string', description: 'Résumé du ticket, une phrase, 120 caractères maximum.' },
+        summary: { type: 'string', description: 'Résumé du ticket, une phrase, 100 caractères maximum.' },
         description: { type: 'string', description: 'Description complète en Markdown (titres ##, listes -, gras **, blocs de code).' },
         issueType: { type: 'string', description: 'Type de ticket, par exemple Story, Task, Bug (défaut: Story).' },
         projectKey: { type: 'string', description: 'Clé du projet (défaut : le projet configuré en mise en route).' },
@@ -727,7 +738,8 @@ const TOOLS = [
   {
     name: 'jira_add_comment',
     description:
-      "Ajoute un commentaire (Markdown converti en ADF) à un ticket existant. Les blocs de code ```text et ```mermaid sont conservés : c'est le canal du logigramme fonctionnel.",
+      "Ajoute un commentaire (Markdown converti en ADF). Les blocs de code ```text et ```mermaid sont conservés : c'est le canal du logigramme fonctionnel. " +
+        "Usage restreint : commentaire sur le ticket que l’agent vient de créer dans la conversation en cours, jamais sur un ticket existant créé par quelqu’un d’autre ; le ticket n’est ni modifié ni supprimé.",
     inputSchema: {
       type: 'object',
       properties: {
@@ -755,7 +767,7 @@ const TOOLS = [
   {
     name: 'jira_projects',
     description:
-      "Liste les projets Jira accessibles avec les identifiants enregistrés, pour proposer le bon projet quand la personne ne connaît pas sa clé ou hésite.",
+      "Liste les projets Jira accessibles avec le prérequis Jira MCP installé, pour proposer le bon projet quand la personne ne connaît pas sa clé ou hésite. Lecture seule.",
     inputSchema: {
       type: 'object',
       properties: {
@@ -786,13 +798,13 @@ const TOOLS = [
   {
     name: 'setup_read',
     description:
-      "État de la configuration et de la mise en route. `missing` liste les questions encore sans réponse parmi projet Jira, tickets d'exemple, documentation et dépôt ; `nextQuestion` et `suggestedQuestion` donnent la question à poser maintenant. `jiraProject` donne le projet cible configuré. À appeler au début d'une conversation.",
+      "État de la mise en route, qui ne porte que sur quatre réglages : projet Jira, tickets d'exemple, documentation produit, dépôt GitHub. `missing` liste les questions encore sans réponse ; `nextQuestion` et `suggestedQuestion` donnent la question à poser maintenant. `jiraProject` donne le projet cible configuré. Ne concerne jamais les identifiants Jira : prérequis installé en amont. À appeler au début d'une conversation.",
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
   },
   {
     name: 'setup_save',
     description:
-      "Enregistre une réponse aux quatre questions de mise en route (projet Jira, tickets d'exemple, documentation, dépôt) ou met à jour la configuration produit. Enregistrer ne termine pas la mise en route : lire `missing` et `nextQuestion` dans le résultat pour savoir quoi demander ensuite. Utiliser skipProject / skipExamples / skipDocs / skipRepo quand la personne répond qu'elle n'a pas l'élément ou ne sait pas encore.",
+      "Enregistre une réponse aux quatre questions de mise en route (projet Jira, tickets d'exemple, documentation, dépôt) ou met à jour la configuration produit. N'enregistre aucun identifiant Jira : prérequis installé en amont. Enregistrer ne termine pas la mise en route : lire `missing` et `nextQuestion` dans le résultat pour savoir quoi demander ensuite. Utiliser skipProject / skipExamples / skipDocs / skipRepo quand la personne répond qu'elle n'a pas l'élément ou ne sait pas encore.",
     inputSchema: {
       type: 'object',
       properties: {
@@ -1020,7 +1032,7 @@ async function setupSave(args = {}) {
       } else {
         projectResult = {
           projectValidated: false,
-          projectWarning: 'Projet enregistré mais non vérifié : identifiants Jira absents.',
+          projectWarning: 'Projet enregistré mais non vérifié : prérequis Jira MCP absent sur ce poste.',
         };
       }
     } catch (error) {

@@ -1,4 +1,5 @@
-﻿# Enregistre les identifiants Jira de l'agent, hors conversation.
+﻿# Enregistre l'acces Jira du MCP Jira : pre-requis, a faire avant l'agent.
+# Hors conversation.
 #
 # Usage : clic droit > « Exécuter avec PowerShell », ou dans PowerShell :
 #   powershell -ExecutionPolicy Bypass -File scripts\set-jira-credentials.ps1
