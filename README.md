@@ -12,7 +12,7 @@ dans **votre** projet Jira — après votre validation, jamais avant.
 
 | Sans l'agent | Avec l'agent |
 |---|---|
-| Vous partez d'une page blanche ou d'un vieux modèle | L'agent applique le gabarit de ticket de votre équipe, section par section |
+| Vous partez d'une page blanche ou d'un vieux modèle | L'agent applique le gabarit du ticket, section par section, dans un ordre fixe |
 | Les questions arrivent au refinement, le ticket est rouvert | L'agent pose les questions **avant** de rédiger : cas limites, erreurs, droits, impact |
 | Un ticket de trois pages que personne ne lit | Un ticket à puces, lisible en 30 secondes |
 | Risque de doublon | L'agent cherche les tickets proches avant de créer |
@@ -27,12 +27,15 @@ Concrètement, l'agent :
   impact sur l'existant, droits, contraintes non fonctionnelles, testabilité) ;
 - **s'appuie sur votre produit** : vos tickets types, votre documentation et votre dépôt de code,
   quand vous les avez fournis ;
-- **rédige** un ticket synthétique en français, à puces : résumé, contexte, user story, périmètre,
-  critères d'acceptation au format Gherkin, puis les sections utiles seulement (hors-périmètre,
-  risques et dépendances, notes). Budget indicatif : 1 500 caractères ;
+- **rédige** un ticket synthétique en français, à puces, en dix sections : résumé, contexte, user
+  story, périmètre, critères d'acceptation au format Gherkin français, exigences non fonctionnelles,
+  hors périmètre, hypothèses et questions ouvertes, risques et dépendances, notes. Budget
+  indicatif : 2 200 caractères ;
+- **relit avant d'afficher** : huit contrôles, du critère testable au budget respecté, et corrige ce
+  qui échoue avant de vous montrer le ticket ;
 - **accompagne le ticket d'un logigramme fonctionnel** : le parcours du besoin en cases et en
-  décisions, présenté en deux formats (texte lisible partout, source Mermaid) et déposé en
-  commentaire du ticket après sa création ;
+  décisions, déduit des critères, présenté en deux formats (texte lisible partout, source Mermaid)
+  et déposé en commentaire du ticket après sa création ;
 - **fait valider** : il affiche le ticket et son logigramme dans la conversation et attend votre « oui » ;
 - **crée** le ticket dans Jira et vous rend sa clé et son lien.
 
@@ -103,20 +106,37 @@ Gabarit appliqué, dans cet ordre :
 2. **Contexte** — 2 à 4 puces : qui est concerné, situation actuelle, impact.
 3. **User story** — une phrase : « En tant que…, je veux…, afin de… ».
 4. **Périmètre** — 3 à 6 puces, verbes d'action.
-5. **Critères d'acceptation** — 3 à 6, Gherkin français, une ligne par critère : `Étant donné … / Quand … / Alors …`.
-6. **Hors périmètre** — puces. **Section omise** si elle est vide.
-7. **Risques et dépendances** — puces. **Section omise** si elle est vide.
-8. **Notes** — puces : liens, maquettes, questions ouvertes. **Section omise** si elle est vide.
+5. **Critères d'acceptation** — Gherkin français, une ligne par critère : `Étant donné … / Quand … /
+   Alors …`. Au minimum un cas nominal, plus un cas limite et un cas d'erreur dès que le parcours
+   peut échouer ; 8 critères au maximum. Chaque critère porte une valeur observable.
+6. **Exigences non fonctionnelles** — puces : performance, volumétrie, accessibilité, mobile, langue,
+   sécurité, conservation. **Section omise** seulement si aucune ne s'applique, et l'omission se
+   justifie alors en **Notes**.
+7. **Hors périmètre** — puces. **Section omise** si elle est vide.
+8. **Hypothèses et questions ouvertes** — une ligne par hypothèse :
+   `Hypothèse : <énoncé> — si faux, alors <impact concret>.` **Section omise** si elle est vide.
+9. **Risques et dépendances** — puces. **Section omise** si elle est vide.
+10. **Notes** — puces : liens, maquettes, `Source :`, `Demandeur :`. **Section omise** si elle est vide.
+
+Les sections 6 à 10 sont les seules facultatives : une section vide est une faute de style, son
+absence n'en est pas une. Après le ticket, et hors de la description, deux lignes de décision sont
+toujours données : `Type proposé : Story | Task | Bug — <justification>` et `Priorité proposée :
+<niveau> — <justification>`.
 
 Règles de concision :
 
 - Une idée = une puce = une ligne.
 - Pas de phrase d'introduction, pas de reformulation de la demande, pas de résumé final.
-- Budget indicatif : **1 500 caractères** hors logigramme. Si ça dépasse, coupez dans le
-  hors-périmètre et les notes, jamais dans les critères.
-- Pas d'adjectif creux, pas de « etc. », pas de section vide.
+- Budget indicatif : **2 200 caractères** hors logigramme. Si ça dépasse, coupez dans cet ordre :
+  **Notes**, puis **Hors périmètre**, puis **Contexte**. Jamais dans les critères d'acceptation, les
+  exigences non fonctionnelles ni les hypothèses : si ces sections débordent, le ticket est trop
+  large, on le découpe.
+- La structure vient du gabarit : vos exemples fournissent le vocabulaire, le ton et le niveau de
+  détail, jamais une section ajoutée, retirée ou renommée.
+- Pas d'adjectif creux, pas de « etc. », pas de « TBD », pas de section vide.
 - La « Definition of Done » séparée n'existe plus : ce qui reste utile va dans une puce de **Notes**.
 - Le logigramme fonctionnel reste **hors** de la description : il part en commentaire du ticket créé.
+  Il se déduit des critères d'acceptation : une branche = un critère, et réciproquement.
 
 ---
 
@@ -189,8 +209,8 @@ vos identifiants : le prérequis Jira les a déjà enregistrés.
    lister vos projets accessibles. « Je ne sais pas encore » est une réponse valide : il redemandera
    au moment de créer le premier ticket.
 2. **Où sont vos tickets types ?** — un dossier ou des fichiers Markdown qui montrent votre façon
-   d'écrire, ou « je n'en ai pas ». L'agent imite leur structure et leur vocabulaire, jamais leur
-   contenu.
+   d'écrire, ou « je n'en ai pas ». L'agent en reprend le vocabulaire, le ton et le niveau de détail,
+   jamais le contenu ; la structure reste celle du gabarit.
 3. **Où est la documentation produit ?** — un lien Notion, Confluence, site ou Google Doc partagé,
    ou un fichier/dossier Markdown local. Un PDF ou un Word n'est pas lisible directement ; donnez
    plutôt un lien ou un export.

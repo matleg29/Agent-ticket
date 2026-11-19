@@ -29,7 +29,7 @@ L'agent pose les questions dans l'ordre et attend une réponse à chacune avant 
 
 ### 2. Où sont vos tickets types ?
 
-Un dossier, un ou plusieurs fichiers, ou « je n'en ai pas » : l'agent imite leur structure et leur ton, jamais leur contenu (voir « Apprendre à l'agent votre façon d'écrire »).
+Un dossier, un ou plusieurs fichiers, ou « je n'en ai pas » : l'agent en reprend le vocabulaire, le ton et le niveau de détail, jamais le contenu. La structure reste celle du gabarit (voir « Apprendre à l'agent votre façon d'écrire »).
 
 ### 3. Où est la documentation produit ?
 
@@ -57,12 +57,13 @@ scripts\reset-product-context.ps1` sous Windows, `bash scripts/reset-product-con
 
 ## Apprendre à l'agent votre façon d'écrire
 
-- Déposez deux ou trois tickets représentatifs par type (story, bug, tâche) : l'agent copie leur structure et leur vocabulaire, jamais leur contenu.
+- Déposez deux ou trois tickets représentatifs par type (story, bug, tâche) : l'agent en reprend le vocabulaire, le ton et le niveau de détail, jamais le contenu.
+- La structure reste celle du gabarit : un exemple ne peut ni ajouter, ni retirer, ni renommer une section. Les critères gardent le format Gherkin français.
 - Rangez-les dans le dossier `C:\Users\<votre-nom>\.dsh\pm-tickets\examples\`, ou copiez-les avec
   `powershell -ExecutionPolicy Bypass -File scripts\add-example.ps1 -Source C:\chemin\mon-ticket.md`
   sous Windows (`bash scripts/add-example.sh ~/Documents/mon-ticket.md story-mon-sujet.md` sous macOS).
 - Un exemple collé dans la conversation est prioritaire ; vos exemples priment sur ceux livrés avec l'agent ; la prise en compte est immédiate.
-- Le gabarit livré reste le même : ticket à puces, 1 500 caractères au plus, sections facultatives omises quand elles sont vides. Vos exemples en montrent le style, ils ne le remplacent pas.
+- Le gabarit livré reste le même : dix sections, 2 200 caractères au plus, sections facultatives omises quand elles sont vides. Vos exemples en montrent le style, ils ne le remplacent pas.
 
 ## À retenir
 

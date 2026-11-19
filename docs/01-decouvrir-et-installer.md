@@ -8,7 +8,7 @@
 
 ## Ce que l'agent fait
 
-- Il rédige un ticket à puces à partir d'une idée, d'un besoin métier ou d'un retour utilisateur : gabarit en huit sections, 1 500 caractères au plus.
+- Il rédige un ticket à puces à partir d'une idée, d'un besoin métier ou d'un retour utilisateur : gabarit en dix sections, 2 200 caractères au plus.
 - Avant d'écrire, il se met à la place du développeur qui lira le ticket et pose jusqu'à six questions : cas limites et erreurs, données et formats, impact sur l'existant, droits, contraintes non fonctionnelles, testabilité.
 - Un « je ne sais pas » devient une hypothèse ou une question ouverte, écrite dans le ticket.
 - Il cherche les tickets proches pour éviter les doublons et vous signale l'existant.
@@ -22,8 +22,9 @@
 2. **Questionner comme un développeur** — jusqu'à six questions ; vos réponses rendent le premier jet pertinent et vous préparent au refinement.
 3. **Vérifier l'existant** — recherche des tickets proches, pour éviter un doublon.
 4. **Rédiger** — un ticket synthétique à puces, avec les hypothèses et les questions ouvertes visibles.
-5. **Faire valider** — vous relisez, vous corrigez, l'agent ajuste.
-6. **Créer** — après votre confirmation, le ticket apparaît dans Jira avec sa clé et son lien.
+5. **Relire avant d'afficher** — huit contrôles avant de vous montrer le ticket : critères testables, cas limite présent, hypothèses avec leur impact, budget respecté. Ce qui échoue est corrigé.
+6. **Faire valider** — vous relisez, vous corrigez, l'agent ajuste.
+7. **Créer** — après votre confirmation, le ticket apparaît dans Jira avec sa clé et son lien.
 
 ![Le parcours d'un ticket](images/flux-ticket.png)
 

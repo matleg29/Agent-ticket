@@ -68,6 +68,15 @@ Vérifiez que vous avez répondu « oui » à la question de création. En cas d
 liste des types de ticket ; si Jira est indisponible, récupérez le ticket en Markdown dans la
 conversation et attendez le retour de la connexion.
 
+### Le ticket est trop long, ou il me semble incomplet
+
+Le budget est de **2 200 caractères** pour la description, logigramme exclu. Au-delà, l'agent coupe
+dans les **Notes**, puis le **Hors périmètre**, puis le **Contexte** — jamais dans les critères
+d'acceptation, les exigences non fonctionnelles ni les hypothèses.
+
+Si ces sections débordent, c'est le sujet qui est trop large : demandez-lui de découper le ticket en
+deux plutôt que de le raccourcir.
+
 ### Je veux corriger un ticket déjà créé
 
 C'est voulu : **l'agent ne modifie et ne supprime jamais un ticket existant**. Il vous décrit le

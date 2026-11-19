@@ -43,9 +43,12 @@ Jira.
 
 ## Le gabarit en résumé
 
+- Dix sections, dans cet ordre : Résumé, Contexte, User story, Périmètre, Critères d'acceptation, Exigences non fonctionnelles, Hors périmètre, Hypothèses et questions ouvertes, Risques et dépendances, Notes.
 - Résumé, Contexte, User story, Périmètre, Critères d'acceptation : toujours présents.
-- Hors périmètre, Risques et dépendances, Notes : présents seulement s'ils ont du contenu.
-- Puces, une idée par ligne, 1 500 caractères au plus hors logigramme.
+- Exigences non fonctionnelles, Hors périmètre, Hypothèses et questions ouvertes, Risques et dépendances, Notes : présents seulement s'ils ont du contenu. L'omission des exigences non fonctionnelles se justifie en Notes.
+- Critères en Gherkin français, une ligne par critère, 8 au maximum : au moins un cas nominal, plus un cas limite et un cas d'erreur dès que le parcours peut échouer.
+- Puces, une idée par ligne, 2 200 caractères au plus hors logigramme.
+- La structure vient du gabarit : les exemples fournissent le vocabulaire, le ton et le niveau de détail, jamais une section de plus ou de moins.
 - Pas de « Definition of Done » séparée : ce qui reste utile va dans une puce de Notes.
 
 ## Où vivent vos données

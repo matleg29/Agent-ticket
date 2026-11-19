@@ -1,6 +1,6 @@
 {
   "name": "pm-ticket-agents",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "type": "module",
   "description": "Agent DeepSeek Harness pour chefs de projet et PM : transforme une idée ou un besoin en ticket Jira synthétique à puces (résumé, contexte, user story, périmètre, critères d'acceptation, logigramme fonctionnel en commentaire), puis le crée dans le projet Jira configuré. Création seule : ne modifie ni ne supprime jamais un ticket existant. Le MCP Jira installé et authentifié est un prérequis.",
@@ -17,7 +17,8 @@
     "scripts/",
     "Configurer-Jira.cmd",
     "Verifier-Jira.cmd",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "dsh": {
     "bundle": {
